@@ -44,7 +44,13 @@ Explanation: this expression is written using postfix notation. Postfix notation
 
 It starts with `[` and ends with `]`. Inside it there are 3 functions: `$+` (reduce), `**_2` (square) and `-_X` (a function that subtracts variable X from its parameter. X is an argument of the lambda function, because it starts with a capital letter. `x` is the variable which was saved earlier. This lambda function reduces `x` by summation, squares the result, and subtracts its argument from it.
 
-As you can see, GOG can be very compact, boasting both tacit features and very compact in-line lambda functions. 
+As you can see, GOG can be packed with meaning, boasting both tacit features and compact lambda functions with an arbitrary number of parameters (but not less than one): variables that start with a capital letter are regarded as parameters. Parameters are placed in alphabetic order.
+
+GOG supports nested lambda functions of unlimited depth. To distinguish parameters of a nested function from parameters of its parent, you must prefix them with one or more asterisks. Number of asterisks must correspond to the nesting level of a function, which parameter it is. For example:
+
+    [map [A + *B] C] 
+
+creates a function with parameters `A` and `C`, and inside it a functin with one parameter `*B`.
 
 
 
