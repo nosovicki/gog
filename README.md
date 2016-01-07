@@ -1,10 +1,11 @@
 GOG
 ===
 Experimental language with polynotational semantics
-
+-----
+!!! This document is unfinished
 # Introduction
 
-What is a language, if not a bunch of words plus means of their compbination?
+What is a language, if not words plus rules of combination?
 While programming languages excel at mind-bending ways to combine their primitives,
 examples of elegant simplicity are rare. What if we wanted to create an absolutely minimalistic
 language with no syntax rules at all? Wouldn't it be great if a programmer could write
@@ -16,20 +17,28 @@ The idea of polynotational semantics is that languages have three main types of 
 * Infix notation: `x = 2 + 2 * 3`
 * Postfix notation: `ls | grep x | tee y`
 
+GOG understands what you mean without any syntax clues. For example:
+`> + 1 2 3`
+`6`
+`> 1 + 2 + 3`
+`6`
+`> 9 sqrt prn prn`
+`3`
+`3`
+
 ### What you can do
 
-GOG understands what you mean without any syntax clues:
-`> + 1 2 3
-6
-> 1 + 2 + 3
-6
-> 9 sqrt prn prn
-3
-3`
+GOG features are:
+* Polynotational semantics
+* Simplified lambda function syntax
+* Prefix functional modifiers
 
 ### Example: sum square difference
 
-`1 range_100 !ls @**_2 $+ [ls $+ **_2 -_X]`
+Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum.
+I. e. (1^2 + 2^2 + ... 100^2) - (1 + 2 + ... 100)^2
+
+`1 range_100 !x @**_2 $+ [x $+ **_2 -_X]`
 
 # Installation
 
@@ -64,8 +73,8 @@ foo
 
 # Executioin speed
 
-I did no optimization whatsoever, as I wanted to keep this highly exprerimental code as straightforward as possible. That said, the overhead is generally unsignificant. First attempt to determine notation is made at compile time. That effectively minimizes run-time overhead, especially for prefix notation. Thus, during arc loading, 10839 of 10318 examined expressions (~95%) recognise as prefix notation at compile time. The rest requires run-time notation discovery, which should result in slight overhead for traditional expressions, and yet somewhat more substantial for infix and postfix ones. Nevertheless, I was not able to notice any of it, using simple benchmarks. This topic might require furthe investigation, but as far as I can see, the overhead seems neglectable.
+I did no optimization whatsoever, as I wanted to keep this highly experimental code as straightforward as possible. That said, the overhead is generally insignificant. First attempt to determine notation is made at compile time. That effectively minimizes run-time overhead, especially for prefix notation. Thus, during arc loading, 10839 of 10318 examined expressions (~95%) recognise as prefix notation at compile time. The rest requires run-time notation discovery, which should result in slight overhead for traditional expressions, and yet somewhat more substantial for infix and postfix ones. Nevertheless, I was not able to notice any of it, using simple benchmarks. This topic might require further investigation, but as far as I can see, the execution overhead seems to be low.
 
 # Infix precedence rules
 
-It would be a shame to untroduce infix notation to a Lisp without precedence rules. GOG uses same precedence as C language does. New functions get precedence by association: you
+It would be a shame to introduce infix notation to a Lisp without precedence rules. GOG uses same precedence as C language does. New functions get precedence by association: you
