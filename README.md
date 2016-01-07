@@ -18,13 +18,13 @@ The idea of polynotational semantics is that languages have three main types of 
 * Postfix notation: `ls | grep x | tee y`
 
 GOG understands what you mean without any syntax clues. For example:
-`> + 1 2 3`
-`6`
-`> 1 + 2 + 3`
-`6`
-`> 9 sqrt prn prn`
-`3`
-`3`
+  > + 1 2 3
+  6
+  > 1 + 2 + 3
+  6
+  > 9 sqrt prn prn
+  3
+  3
 
 ### What you can do
 
@@ -38,15 +38,15 @@ GOG features are:
 Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum.
 I. e. (1^2 + 2^2 + ... 100^2) - (1 + 2 + ... 100)^2
 
-`1 range_100 !x @**_2 $+ [x $+ **_2 -_X]`
+  1 range_100 !x @**_2 $+ [x $+ **_2 -_X]
 
 # Installation
 
 Assuming you have ubuntu:
-`# sudo apt-get install racket rlwrap`
+ # sudo apt-get install racket rlwrap
 
 After that, you can run gog:
-`./gog`
+ ./gog
 
 # Backward compatibility
 
