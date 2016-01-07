@@ -18,6 +18,7 @@ The idea of polynotational semantics is that languages have three main types of 
 * Postfix notation: `ls | grep x | tee y`
 
 GOG understands what you mean without any syntax clues. For example:
+
     > + 1 2 3
     6
     > 1 + 2 + 3
@@ -42,9 +43,11 @@ Find the difference between the sum of the squares of the first one hundred natu
 # Installation
 
 Assuming you have ubuntu:
+
     # sudo apt-get install racket rlwrap
 
 After that, you can run gog:
+
     ./gog
 
 # Backward compatibility
