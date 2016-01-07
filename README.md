@@ -49,11 +49,12 @@ GOG understands what you mean without any syntax clues. For example:
     3
     3
 
+Some of additional GOG features are:
+* Intuitive lambda function semantics
+* Tacit programming
 
 ### What you can do
 
-Some of additional GOG features are:
-* Intuitive lambda function semantics:
 
 Instead of
 
@@ -64,7 +65,9 @@ you write
      [A + B / c]
 
 Of course, you can use any notation inside lambdas, too. Just make sure that
-lambda parameters start with capital letters. A more complex example:
+lambda parameters start with capital letters.
+
+#### A nested example
 
     [map [*Elem / Num + *Elem] List]
 
@@ -72,32 +75,30 @@ GOG understands as:
 
     (lambda (List Num) (map (lambda (Elem) (Elem / Num + Elem)) List))
 
-Note that Elem starts with an asterisk. This is how you inform that Elem
-is a parameter of the inner lambda.  Also, List goes before Num in lambda
-parameters, because lambda parameters are formed alphabetically.
+Note that Elem starts with an asterisk. This is how you inform that Elem is a
+parameter of the inner lambda. The deeper your nesting, the more asterisks you
+add. Also note that List goes before Num in lambda parameters. It is because
+auto-guessed lambda parameters always follow the alphabetic order.
 
-* Minimalistic set of Adverbs, or function modifiers, creates reach calculus:
+### Fun with adverbs
 
     gog> x = '((1 2 3) (4 5 6) (7 8 9))
     ((1 2 3) (4 5 6) (7 8 9))
     
     gog> $+ x
-    (1 2 3 4 5 6 7 8 9)  ;; Flatten
+    (1 2 3 4 5 6 7 8 9)  ;; Flattened
     
     gog> @$+ x
-    (6 15 24) ;; Sum rows
+    (6 15 24) ;; Sumved rows
     
     gog> $@+ x
-    (12 15 18) ;; Sum columns
+    (12 15 18) ;; Sumved columns
     
     gog> $@&+ x
-    ((1 4 7) (2 5 8) (3 6 9)) ;; Transpose
+    ((1 4 7) (2 5 8) (3 6 9)) ;; Transposed
 
-@ = map
-$ = reduce
-& = list
+@ = map; $ = reduce; & = list
 
-### 
 
 ### Example: sum square difference
 
