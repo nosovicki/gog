@@ -2,41 +2,117 @@ GOG
 ===
 Experimental language with polynotational semantics
 -----
-!!! This document is unfinished
-# Introduction
 
-What is a language, if not words plus rules of combination?
+# Installation
+
+1. Get gog and place it where you want
+2. Install rlwrap and racket. Assuming you have ubuntu:
+
+    sudo apt-get install racket rlwrap
+
+3. Add gog to your path
+
+    sudo ln -s [PATH TO GOG]/gog /usr/bin/
+
+After that, you can run gog:
+
+    gog
+
+## Introduction
+
+What is a language, if not words and rules how combine those words?
 While programming languages excel at mind-bending ways to combine their primitives,
 examples of elegant simplicity are rare. What if we wanted to create an absolutely minimalistic
 language with no syntax rules at all? Wouldn't it be great if a programmer could write
 expressions any way he wants? Well, GOG is one step in that direction.
 
-The idea of polynotational semantics is that languages have three main types of notation:
+GOG rules are:
+* Tokens are separated by spaces
+* Expressions are separated by parentheses
+
+That's all. As you can see, no rules about the order of tokens. This is because
+GOG is build around polynotational semantics.  The idea of polynotational
+semantics is that languages have three main types of notation:
 
 * Prefix notation: `func(arg1, arg2, arg3)`
 * Infix notation: `x = 2 + 2 * 3`
-* Postfix notation: `ls | grep x | tee y`
+* Postfix notation: `ls | rev | tac | split`
 
+Each notation has its strengths, and GOG allows them all. Rurthermore,  
 GOG understands what you mean without any syntax clues. For example:
 
-    > + 1 2 3
+    gog> + 1 2 3
     6
-    > 1 + 2 + 3
+    gog> 1 + 2 + 3
     6
-    > 9 sqrt prn prn
+    gog> 9 sqrt prn prn
     3
     3
+
 
 ### What you can do
 
-Some of GOG features are:
-* Polynotational semantics
-* Simplified lambda functions
-* Adverbs
+Some of additional GOG features are:
+* Intuitive lambda function semantics:
+
+Instead of
+
+    (lambda (A B) (A + B / c))
+
+you write
+
+     [A + B / c]
+
+Of course, you can use any notation inside lambdas, too. Just make sure that
+lambda parameters start with capital letters. A more complex example:
+
+    [map [*Elem / Num + *Elem] List]
+
+GOG understands as:
+
+    (lambda (List Num) (map (lambda (Elem) (Elem / Num + Elem)) List))
+
+Note that Elem starts with an asterisk. This is how you inform that Elem
+is a parameter of the inner lambda.  Also, List goes before Num in lambda
+parameters, because lambda parameters are formed alphabetically.
+
+* Minimalistic set of Adverbs, or function modifiers, creates reach calculus:
+
+    gog> x = '((1 2 3) (4 5 6) (7 8 9))
+    ((1 2 3) (4 5 6) (7 8 9))
+    
+    gog> $+ x
+    (1 2 3 4 5 6 7 8 9)  ;; Flatten
+    
+    gog> @$+ x
+    (6 15 24) ;; Sum rows
+    
+    gog> $@+ x
+    (12 15 18) ;; Sum columns
+    
+    gog> $@&+ x
+    ((1 4 7) (2 5 8) (3 6 9)) ;; Transpose
+
+@ = map
+$ = reduce
+& = list
+
+### 
 
 ### Example: sum square difference
 
-Find the difference between the sum of the squares of the first one hundred natural numbers and the square of the sum, i. e. (1^2 + 2^2 + ... 100^2) - (1 + 2 + ... 100)^2
+Find the difference between the sum of the squares of the first one hundred
+natural numbers and the square of the sum, 
+i. e. (1^2 + 2^2 + ... 100^2) - (1 + 2 + ... 100)^2
+
+* Prefix notation:
+
+    (= x (range 1 100))
+    (- (**_2 ($+ x)) ($+ (@**_2 x)))
+
+* Infix notation:
+
+* Postfix notation:
 
     1 range_100 !x @**_2 $+ [x $+ **_2 -_X]
 
@@ -52,17 +128,6 @@ GOG supports nested lambda functions of unlimited depth. To distinguish paramete
 
 creates a function with parameters `A` and `C`, and inside it a functin with one parameter `*B`.
 
-
-
-# Installation
-
-Assuming you have ubuntu:
-
-    # sudo apt-get install racket rlwrap
-
-After that, you can run gog:
-
-    ./gog
 
 # Backward compatibility
 
