@@ -1,0 +1,37 @@
+1257739369 127.0.0.1 3 4  get favicon.ico nil nil
+1257739376 127.0.0.1 3 1  get css nil nil
+1257739376 127.0.0.1 14 64  get prop (sublist ) nil
+1257739376 127.0.0.1 26 0  get arc4.png nil nil
+1257739381 127.0.0.1 4 0  get css nil nil
+1257739381 127.0.0.1 20 78  get prop (list ) nil
+1257739381 127.0.0.1 4 0  get arc4.png nil nil
+1257739393 127.0.0.1 3 0  get css nil nil
+1257739393 127.0.0.1 4 74  get fun (201 ) nil
+1257739394 127.0.0.1 3 1  get arc4.png nil nil
+1257739426 127.0.0.1 5 2  get css nil nil
+1257739426 127.0.0.1 4 14  get arc4.png nil nil
+1257739426 127.0.0.1 15 350  get fun (200 ) nil
+1257739612 127.0.0.1 3 1  get css nil nil
+1257739612 127.0.0.1 4 92  get fun (186 ) nil
+1257739613 127.0.0.1 11 0  get arc4.png nil nil
+1257760505 127.0.0.1 3 1  get css nil nil
+1257760505 127.0.0.1 4 76  get prop (coerce ) nil
+1257760505 127.0.0.1 4 0  get arc4.png nil nil
+1257760508 127.0.0.1 4 0  get css nil nil
+1257760508 127.0.0.1 13 75  get fun (68 ) nil
+1257760508 127.0.0.1 11 1  get arc4.png nil nil
+1257807124 127.0.0.1 4 0  get css nil nil
+1257807124 127.0.0.1 19 0  get arc4.png nil nil
+1257807124 127.0.0.1 9 198  get prop (head ) nil
+1257807135 127.0.0.1 13 47  get prop (firstn ) nil
+1257807135 127.0.0.1 7 0  get css nil nil
+1257807135 127.0.0.1 4 9  get arc4.png nil nil
+1257807149 127.0.0.1 3 1  get css nil nil
+1257807149 127.0.0.1 5 78  get fun (186 ) nil
+1257807149 127.0.0.1 3 1  get arc4.png nil nil
+1257807164 127.0.0.1 12 1  get css nil nil
+1257807164 127.0.0.1 13 70  get fun (172 ) nil
+1257807164 127.0.0.1 4 12  get arc4.png nil nil
+1257809241 127.0.0.1 4 8  get fun (172 ) nil
+1257809241 127.0.0.1 4 0  get css nil nil
+1257809241 127.0.0.1 3 1  get arc4.png nil nil

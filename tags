@@ -1,0 +1,148 @@
+*read	brackets.scm	/^(define (*read . args)$/
+*read-syntax	brackets.scm	/^(define (*read-syntax src port)$/
+ac	ac.scm	/^(define (ac s env)$/
+ac*	ac.scm	/^(define (ac* fn args env)$/
+ac-$	ac.scm	/^(define (ac-$ args env)$/
+ac-andf	ac.scm	/^(define (ac-andf s env)$/
+ac-arglist	ac.scm	/^(define (ac-arglist a)$/
+ac-args	ac.scm	/^(define (ac-args names exprs env)$/
+ac-binaries	ac.scm	/^(define ac-binaries$/
+ac-body	ac.scm	/^(define (ac-body body env)$/
+ac-body*	ac.scm	/^(define (ac-body* body env)$/
+ac-call	ac.scm	/^(define (ac-call fn args env)$/
+ac-complex-args	ac.scm	/^(define (ac-complex-args args env ra is-params)$/
+ac-complex-args?	ac.scm	/^(define (ac-complex-args? args)$/
+ac-complex-fn	ac.scm	/^(define (ac-complex-fn args body env)$/
+ac-complex-getargs	ac.scm	/^(define (ac-complex-getargs a)$/
+ac-complex-opt	ac.scm	/^(define (ac-complex-opt var expr env ra)$/
+ac-dbname	ac.scm	/^(define (ac-dbname env)$/
+ac-dbname!	ac.scm	/^(define (ac-dbname! name env)$/
+ac-denil	ac.scm	/^(define (ac-denil x)$/
+ac-denil-car	ac.scm	/^(define (ac-denil-car x)$/
+ac-denil-cdr	ac.scm	/^(define (ac-denil-cdr x)$/
+ac-fn	ac.scm	/^(define (ac-fn args body env)$/
+ac-global-call	ac.scm	/^(define (ac-global-call fn args env)$/
+ac-global-name	ac.scm	/^(define (ac-global-name s)$/
+ac-if	ac.scm	/^(define (ac-if args env)$/
+ac-mac-call	ac.scm	/^(define (ac-mac-call m args env)$/
+ac-mac/fn?	ac.scm	/^(define (ac-mac\/fn? env k)$/
+ac-macex	ac.scm	/^(define (ac-macex e . once)$/
+ac-macro?	ac.scm	/^(define (ac-macro? v)$/
+ac-nameit	ac.scm	/^(define (ac-nameit name v)$/
+ac-niltree	ac.scm	/^(define (ac-niltree x)$/
+ac-qq	ac.scm	/^(define (ac-qq args env)$/
+ac-qqx	ac.scm	/^(define (ac-qqx x unq splice)$/
+ac-set	ac.scm	/^(define (ac-set x env)$/
+ac-set1	ac.scm	/^(define (ac-set1 a b1 env)$/
+ac-setn	ac.scm	/^(define (ac-setn x env)$/
+ac-string	ac.scm	/^(define (ac-string s env)$/
+ac-unexpanded?	ac.scm	/^(define (ac-unexpanded? x)$/
+ac-var-ref	ac.scm	/^(define (ac-var-ref s env)$/
+acompile	ac.scm	/^(define (acompile inname)$/
+acompile1	ac.scm	/^(define (acompile1 ip op)$/
+all	ac.scm	/^(define (all test seq)$/
+aload	ac.scm	/^(define (aload filename)$/
+aload1	ac.scm	/^(define (aload1 p)$/
+any	ac.scm	/^(define (any ? ls)$/
+ar-+2	ac.scm	/^(define (ar-+2 x y)$/
+ar-<2	ac.scm	/^(define (ar-<2 x y)$/
+ar->2	ac.scm	/^(define (ar->2 x y)$/
+ar-apply	ac.scm	/^(define (ar-apply fn args)$/
+ar-apply-args	ac.scm	/^(define (ar-apply-args args)$/
+ar-bflag	ac.scm	/^(define (ar-bflag key)$/
+ar-call-resolve-notation	ac.scm	/^(define ar-call-resolve-notation$/
+ar-close	ac.scm	/^(define (ar-close . args)$/
+ar-coerce	ac.scm	/^(define (ar-coerce x type . args)$/
+ar-declarations	ac.scm	/^(define ar-declarations (make-hash-table))$/
+ar-false?	ac.scm	/^(define (ar-false? x)$/
+ar-init-socket	ac.scm	/^(define (ar-init-socket init-fn . args)$/
+ar-is2	ac.scm	/^(define (ar-is2 a b)$/
+ar-mac/fn?	ac.scm	/^(define (ar-mac\/fn? env k)$/
+ar-nil-terminate	ac.scm	/^(define (ar-nil-terminate l)$/
+ar-nill	ac.scm	/^(define (ar-nill x)$/
+ar-rep	ac.scm	/^(define (ar-rep x)$/
+ar-sema-cell	ac.scm	/^(define ar-sema-cell (make-thread-cell #f))$/
+ar-tag	ac.scm	/^(define (ar-tag type rep)$/
+ar-tagged?	ac.scm	/^(define (ar-tagged? x)$/
+ar-the-sema	ac.scm	/^(define ar-the-sema (make-semaphore 1))$/
+ar-tmpname	ac.scm	/^(define (ar-tmpname)$/
+ar-type	ac.scm	/^(define (ar-type x)$/
+ar-xcar	ac.scm	/^(define (ar-xcar x)$/
+ar-xcdr	ac.scm	/^(define (ar-xcdr x)$/
+arc-eval	ac.scm	/^(define (arc-eval expr) $/
+arc-list?	ac.scm	/^(define (arc-list? x) (or (pair? x) (eqv? x 'nil) /
+ascii->char	ac.scm	/^(define ascii->char integer->char)$/
+associate-custodian	ac.scm	/^(define (associate-custodian c i o)$/
+atests1	ac.scm	/^(define (atests1 p)$/
+atpos	ac.scm	/^(define (atpos s i)$/
+bound?	ac.scm	/^(define (bound? arcname)$/
+bracket-readtable	brackets.scm	/^(define bracket-readtable$/
+build-sexpr	ac.scm	/^(define (build-sexpr toks orig)$/
+char->ascii	ac.scm	/^(define char->ascii char->integer)$/
+char-or-string?	ac.scm	/^(define (char-or-string? x) (or (string? x) (char?/
+chars->value	ac.scm	/^(define (chars->value chars) (read-from-string (li/
+codestring	ac.scm	/^(define (codestring s)$/
+coercions	ac.scm	/^(define coercions (make-hash-table 'equal))$/
+custodians	ac.scm	/^(define custodians (make-hash-table 'equal))$/
+decompose	ac.scm	/^(define (decompose fns args)$/
+disp-to-string	ac.scm	/^(define (disp-to-string x)$/
+err	ac.scm	/^(define err error)$/
+eval*	ac.scm	/^(define (eval* ls)$/
+every	ac.scm	/^(define (every ? ls)$/
+exc	ac.scm	/^(define (exc elts n)$/
+exint?	ac.scm	/^(define (exint? x) (and (integer? x) (exact? x)))$/
+expand-and	ac.scm	/^(define (expand-and sym)$/
+expand-compose	ac.scm	/^(define (expand-compose sym)$/
+expand-curry	ac.scm	/^(define (expand-curry sym)$/
+expand-sexpr	ac.scm	/^(define (expand-sexpr sym)$/
+expand-ssyntax	ac.scm	/^(define (expand-ssyntax sym)$/
+fill-table	ac.scm	/^(define (fill-table h pairs)$/
+fn->infixoperator	ac.scm	/^(define fn->infixoperator (make-hash-table 'equal)/
+fn-signatures	ac.scm	/^(define fn-signatures (make-hash-table 'equal))$/
+get-ptr	ac.scm	/^(define (get-ptr)$/
+gmt-date	ac.scm	/^(define (gmt-date sec) (seconds->date sec))$/
+has-ssyntax-char?	ac.scm	/^(define (has-ssyntax-char? string i)$/
+imap	ac.scm	/^(define (imap f l)$/
+infix->prefix	ac.scm	/^(define (infix->prefix f ls)$/
+insym?	ac.scm	/^(define (insym? char sym) (member char (symbol->ch/
+iround	ac.scm	/^(define (iround x) (inexact->exact (round x)))$/
+keep	ac.scm	/^(define (keep f xs)$/
+last-condition*	ac.scm	/^(define last-condition* #f)$/
+lex?	ac.scm	/^(define (lex? v env)$/
+literal?	ac.scm	/^(define (literal? x)$/
+n-set-car!	ac.scm	/^(define (n-set-car! p x) (set-ca\/dr! 1 'set-car! p/
+n-set-cdr!	ac.scm	/^(define (n-set-cdr! p x) (set-ca\/dr! 2 'set-cdr! p/
+notation	ac.scm	/^(define (notation tester fn args env)$/
+nth-set!	ac.scm	/^(define (nth-set! lst n val)$/
+odef	ac.scm	/^(define (odef a parms b)$/
+on-err	ac.scm	/^(define (on-err errfn f)$/
+pairwise	ac.scm	/^(define (pairwise pred lst)$/
+postfix->prefix	ac.scm	/^(define (postfix->prefix f ls)$/
+precedence	ac.scm	/^(define (precedence f)$/
+printwith	ac.scm	/^(define (printwith f args)$/
+proc-data-pairs	ac.scm	/^(define (proc-data-pairs proc? ls)$/
+protect	ac.scm	/^(define (protect during after)$/
+ptr	ac.scm	/^(define ptr (make-thread-cell #f))$/
+read-from-string	ac.scm	/^(define (read-from-string str)$/
+read-square-brackets	brackets.scm	/^(define (read-square-brackets ch port src line col/
+set-ca/dr!	ac.scm	/^(define (set-ca\/dr! offset who p x)$/
+setuid	ac.scm	/^(define setuid (get-ffi-obj 'setuid #f (_fun _int /
+ssyntax?	ac.scm	/^(define (ssyntax? x)$/
+string-replace!	ac.scm	/^(define (string-replace! str val index)$/
+symbol->chars	ac.scm	/^(define (symbol->chars x) (string->list (symbol->s/
+test	ac.scm	/^(define (test filename)$/
+test	test.scm	/^(define (test ls)$/
+test2	test.scm	/^(define (test2 ls)$/
+tl	ac.scm	/^(define (tl)$/
+tl2	ac.scm	/^(define (tl2 interactive?)$/
+tle	ac.scm	/^(define (tle)$/
+tnil	ac.scm	/^(define (tnil x) (if x 't 'nil))$/
+tokens	ac.scm	/^(define (tokens test source token acc keepsep?)$/
+try-custodian	ac.scm	/^(define (try-custodian p)$/
+unescape-ats	ac.scm	/^(define (unescape-ats s)$/
+use-bracket-readtable	brackets.scm	/^(define (use-bracket-readtable)$/
+wrapnil	ac.scm	/^(define (wrapnil f) (lambda args (apply f args) 'n/
+x-set-car!	ac.scm	/^(define (x-set-car! p v)$/
+x-set-cdr!	ac.scm	/^(define (x-set-cdr! p v)$/
+xcar	ac.scm	/^(define (xcar x)$/
+xdef	ac.scm	/^(define-syntax xdef$/

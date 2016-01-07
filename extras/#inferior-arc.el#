@@ -1,0 +1,378 @@
+;;; inferior-arc.el --- Arc process in a buffer. Adapted from cmuscheme.el
+
+;; Copyright (C) 1988, 1994, 1997, 2001, 2002, 2003, 2004,
+;;   2005, 2006, 2007, 2008 Free Software Foundation, Inc.
+
+;; Author: Olin Shivers <olin.shivers@cs.cmu.edu>
+;; Keywords: processes, lisp, arc
+
+;; Adapted for Arc by Sami Samhuri <sami.samhuri@gmail.com>
+
+;; This file is NOT part of GNU Emacs.
+
+;; This code is free software; you can redistribute it and/or modify
+;; it under the terms of the GNU General Public License as published by
+;; the Free Software Foundation; either version 2, or (at your option)
+;; any later version.
+
+;; inferior-arc.el is distributed in the hope that it will be useful,
+;; but WITHOUT ANY WARRANTY; without even the implied warranty of
+;; MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+;; GNU General Public License for more details.
+
+;; You should have received a copy of the GNU General Public License
+;; along with inferior-arc.el; see the file COPYING.  If not, write to the
+;; Free Software Foundation, Inc., 51 Franklin Street, Fifth Floor,
+;; Boston, MA 02110-1301, USA.
+
+;;; Commentary:
+
+;;    This is a customization of comint-mode (see comint.el)
+;;
+;; Written by Olin Shivers (olin.shivers@cs.cmu.edu). With bits and pieces
+;; lifted from scheme.el, shell.el, clisp.el, newclisp.el, cobol.el, et al..
+;; 8/88
+;;
+;; Please send me bug reports, bug fixes, and extensions, so that I can
+;; merge them into the master source.
+;;
+;; The changelog is at the end of this file.
+;;
+;;; CHANGE LOG
+;;; ===========================================================================
+;;; 8/88 Olin
+;;; Created.
+;;;
+;;; 2/15/89 Olin
+;;; Removed -emacs flag from process invocation. It's only useful for
+;;; cscheme, and makes cscheme assume it's running under xscheme.el,
+;;; which messes things up royally. A bug.
+;;;
+;;; 5/22/90 Olin
+;;; - Upgraded to use comint-send-string and comint-send-region.
+;;; - run-scheme now offers to let you edit the command line if
+;;;   you invoke it with a prefix-arg. m-x scheme is redundant, and
+;;;   has been removed.
+;;; - explicit references to process "scheme" have been replaced with
+;;;   (scheme-proc). this allows better handling of multiple process bufs.
+;;; - added scheme-send-last-sexp, bound to c-x c-e. a gnu convention.
+;;; - have not added process query facility a la cmulisp.el's lisp-show-arglist
+;;;   and friends, but interested hackers might find a useful application
+;;;   of this facility.
+;;;
+;;; 3/12/90 olin
+;;; - scheme-load-file and scheme-compile-file no longer switch-to-scheme.
+;;;   tale suggested this.
+;;;
+;;; 2/08/08 sjs
+;;; - adapted for arc (basically s/scheme/arc/g)
+
+;;; code:
+
+(require 'arc)
+(require 'comint)
+
+
+(defgroup arc nil
+  "run an arc process in a buffer."
+  :group 'arc)
+
+;;; inferior arc mode stuff
+;;;============================================================================
+
+(defcustom inferior-arc-mode-hook nil
+  "*hook for customizing inferior-arc mode."
+  :type 'hook
+  :group 'arc)
+
+(defvar inferior-arc-mode-map
+  (let ((m (make-sparse-keymap)))
+    (define-key m "\m-\c-x" 'arc-send-definition) ;gnu convention
+    (define-key m "\c-x\c-e" 'arc-send-last-sexp)
+    (define-key m "\c-c\c-l" 'arc-load-file)
+    m))
+
+(defvar arc-program-name "arc --no-rl"
+  "the name of the program used to run arc.")
+
+;; install the process communication commands in the arc-mode keymap.
+(define-key arc-mode-map "\m-\c-x" 'arc-send-definition);gnu convention
+(define-key arc-mode-map "\c-x\c-e" 'arc-send-last-sexp);gnu convention
+(define-key arc-mode-map "\c-c\c-e" 'arc-send-definition)
+(define-key arc-mode-map "\c-c\m-e" 'arc-send-definition-and-go)
+(define-key arc-mode-map "\c-c\c-r" 'arc-send-region)
+(define-key arc-mode-map "\c-c\m-r" 'arc-send-region-and-go)
+(define-key arc-mode-map "\c-c\c-x" 'arc-expand-current-form)
+(define-key arc-mode-map "\c-c\c-z" 'switch-to-arc)
+(define-key arc-mode-map "\c-c\c-l" 'arc-load-file)
+
+(let ((map (lookup-key arc-mode-map [menu-bar arc])))
+  (define-key map [separator-eval] '("--"))
+  (define-key map [load-file]
+    '("load arc file" . arc-load-file))
+  (define-key map [switch]
+    '("switch to arc" . switch-to-arc))
+  (define-key map [exp-form]
+    '("expand current form" . arc-expand-current-form))
+  (define-key map [send-def-go]
+    '("evaluate last definition & go" . arc-send-definition-and-go))
+  (define-key map [send-def]
+    '("evaluate last definition" . arc-send-definition))
+  (define-key map [send-region-go]
+    '("evaluate region & go" . arc-send-region-and-go))
+  (define-key map [send-region]
+    '("evaluate region" . arc-send-region))
+  (define-key map [send-sexp]
+    '("evaluate last s-expression" . arc-send-last-sexp))
+  )
+
+(defvar arc-buffer)
+
+(define-derived-mode inferior-arc-mode comint-mode "inferior arc"
+  "major mode for interacting with an inferior arc process.
+
+the following commands are available:
+\\{inferior-arc-mode-map}
+
+an arc process can be fired up with m-x run-arc.
+
+customization: entry to this mode runs the hooks on comint-mode-hook and
+inferior-arc-mode-hook (in that order).
+
+you can send text to the inferior arc process from other buffers containing
+arc source.
+    switch-to-arc switches the current buffer to the arc process buffer.
+    arc-send-definition sends the current definition to the arc process.
+    arc-send-region sends the current region to the arc process.
+
+    arc-send-definition-and-go and arc-send-region-and-go
+        switch to the arc process buffer after sending their text.
+for information on running multiple processes in multiple buffers, see
+documentation for variable arc-buffer.
+
+commands:
+return after the end of the process' output sends the text from the
+    end of process to point.
+return before the end of the process' output copies the sexp ending at point
+    to the end of the process' output, and sends it.
+delete converts tabs to spaces as it moves back.
+tab indents for arc; with argument, shifts rest
+    of expression rigidly with the current line.
+c-m-q does tab on each line starting within following expression.
+paragraphs are separated only by blank lines.  semicolons start comments.
+if you accidentally suspend your process, use \\[comint-continue-subjob]
+to continue it."
+  ;; customize in inferior-arc-mode-hook
+  (arc-mode-variables)
+  (set (make-local-variable 'comint-prompt-regexp) "^[^>\n]*>+ *")
+  (set (make-local-variable 'comint-input-filter) (function arc-input-filter))
+  (set (make-local-variable 'comint-get-old-input) (function arc-get-old-input))
+  (setq mode-line-process '(":%s")))
+
+(defcustom inferior-arc-filter-regexp "\\`\\s *\\s ?\\s ?\\s *\\'"
+  "*input matching this regexp are not saved on the history list.
+defaults to a regexp ignoring all inputs of 0, 1, or 2 letters."
+  :type 'regexp
+  :group 'arc)
+
+(defun arc-input-filter (str)
+  "don't save anything matching `inferior-arc-filter-regexp'."
+  (not (string-match inferior-arc-filter-regexp str)))
+
+(defun arc-get-old-input ()
+  "snarf the sexp ending at point."
+  (save-excursion
+    (let ((end (point)))
+      (backward-sexp)
+      (buffer-substring (point) end))))
+
+;;;###autoload
+(defun run-arc (cmd)
+  "run an inferior arc process, input and output via buffer `*arc*'.
+if there is a process already running in `*arc*', switch to that buffer.
+with argument, allows you to edit the command line (default is value
+of `arc-program-name').
+runs the hook `inferior-arc-mode-hook' \(after the `comint-mode-hook'
+is run).
+\(type \\[describe-mode] in the process buffer for a list of commands.)"
+
+  (interactive (list (if current-prefix-arg
+                         (read-string "run arc: " arc-program-name)
+                         arc-program-name)))
+  (when (not (comint-check-proc "*arc*"))
+    (let ((cmdlist (split-string cmd)))
+      (set-buffer (apply 'make-comint "arc" (car cmdlist)
+                         nil (cdr cmdlist)))
+      (inferior-arc-mode)))
+  (setq arc-program-name cmd)
+  (setq arc-buffer "*arc*")
+  (pop-to-buffer "*arc*"))
+;;;###autoload (add-hook 'same-window-buffer-names "*arc*")
+
+(defun arc-send-region (start end)
+  "send the current region to the inferior arc process."
+  (interactive "r")
+  (comint-send-region (arc-proc) start end)
+  (comint-send-string (arc-proc) "\n"))
+
+(defun arc-send-definition ()
+  "send the current definition to the inferior arc process."
+  (interactive)
+  (save-excursion
+   (end-of-defun)
+   (let ((end (point)))
+     (beginning-of-defun)
+     (arc-send-region (point) end))))
+
+(defun arc-send-last-sexp ()
+  "send the previous sexp to the inferior arc process."
+  (interactive)
+  (arc-send-region (save-excursion (backward-sexp) (point)) (point)))
+
+(defun arc-expand-current-form ()
+  "macro-expand the form at point in the inferior arc process."
+  (interactive)
+  (let ((current-form (arc-form-at-point)))
+    (if current-form
+        (progn
+          (comint-send-string (arc-proc)
+                              (format "(macex1 '%s)" current-form))
+          (comint-send-string (arc-proc) "\n"))
+      (error "not at a form"))))
+
+(defun arc-form-at-point ()
+  (let ((next-sexp (thing-at-point 'sexp)))
+    (if (and next-sexp (string-equal (substring next-sexp 0 1) "("))
+        next-sexp
+      (save-excursion
+        (backward-up-list)
+        (arc-form-at-point)))))
+
+(defun switch-to-arc (eob-p)
+  "switch to the arc process buffer.
+with argument, position cursor at end of buffer."
+  (interactive "p")
+  (if (or (and arc-buffer (get-buffer arc-buffer))
+          (arc-interactively-start-process))
+      (pop-to-buffer arc-buffer)
+    (error "no current process buffer.  see variable `arc-buffer'"))
+  (when eob-p
+    (push-mark)
+    (goto-char (point-max))))
+
+(defun arc-send-region-and-go (start end)
+  "send the current region to the inferior arc process.
+then switch to the process buffer."
+  (interactive "r")
+  (arc-send-region start end)
+  (switch-to-arc t))
+
+(defun arc-send-definition-and-go ()
+  "send the current definition to the inferior arc.
+then switch to the process buffer."
+  (interactive)
+  (arc-send-definition)
+  (switch-to-arc t))
+
+(defcustom arc-source-modes '(arc-mode)
+  "*used to determine if a buffer contains arc source code.
+if it's loaded into a buffer that is in one of these major modes,
+it's considered a arc source file by `arc-load-file'.  used by
+these commands to determine defaults."
+  :type '(repeat function)
+  :group 'arc)
+
+(defvar arc-prev-load-dir/file nil
+  "caches the last (directory . file) pair.
+caches the last pair used in the last `arc-load-file' command.
+used for determining the default in the next one.")
+
+(defun arc-load-file (file-name)
+  "load a arc file file-name into the inferior arc process."
+  (interactive (comint-get-source "load arc file: " arc-prev-load-dir/file
+                                  arc-source-modes t)) ; t because `load'
+                                                       ; needs an exact name
+  (comint-check-source file-name) ; check to see if buffer needs saved.
+  (setq arc-prev-l/c-dir/file (cons (file-name-directory    file-name)
+                                       (file-name-nondirectory file-name)))
+  (comint-send-string (arc-proc) (concat "(load \""
+                                            file-name
+                                            "\"\)\n")))
+
+
+(defvar arc-buffer nil "*the current arc process buffer.
+
+multiple process support
+===========================================================================
+inferior-arc.el supports, in a fairly simple fashion, running multiple arc
+processes.  to run multiple arc processes, you start the first up with
+\\[run-arc].  it will be in a buffer named *arc*.  rename this buffer
+with \\[rename-buffer].  you may now start up a new process with another
+\\[run-arc].  it will be in a new buffer, named *arc*.  you can
+switch between the different process buffers with \\[switch-to-buffer].
+
+commands that send text from source buffers to arc processes -- like
+`arc-send-definition' -- have to choose a process to send to, when you
+have more than one arc process around.  this is determined by the
+global variable `arc-buffer'.  suppose you have three inferior arcs
+running:
+    buffer      process
+    foo         arc
+    bar         arc<2>
+    *arc*    arc<3>
+if you do a \\[arc-send-definition-and-go] command on some arc source
+code, what process do you send it to?
+
+- if you're in a process buffer (foo, bar, or *arc*),
+  you send it to that process.
+- if you're in some other buffer (e.g., a source file), you
+  send it to the process attached to buffer `arc-buffer'.
+this process selection is performed by function `arc-proc'.
+
+whenever \\[run-arc] fires up a new process, it resets `arc-buffer'
+to be the new process's buffer.  if you only run one process, this will
+do the right thing.  if you run multiple processes, you can change
+`arc-buffer' to another process buffer with \\[set-variable].
+
+more sophisticated approaches are, of course, possible.  if you find yourself
+needing to switch back and forth between multiple processes frequently,
+you may wish to consider ilisp.el, a larger, more sophisticated package
+for running inferior lisp and arc processes.  the approach taken here is
+for a minimal, simple implementation.  feel free to extend it.")
+
+(defun arc-proc ()
+  "return the current arc process, starting one if necessary.
+see variable `arc-buffer'."
+  (unless (and arc-buffer
+               (get-buffer arc-buffer)
+               (comint-check-proc arc-buffer))
+    (arc-interactively-start-process))
+  (or (arc-get-process)
+      (error "no current process.  see variable `arc-buffer'")))
+
+(defun arc-get-process ()
+  "return the current arc process or nil if none is running."
+  (get-buffer-process (if (eq major-mode 'inferior-arc-mode)
+                          (current-buffer)
+                        arc-buffer)))
+
+(defun arc-interactively-start-process (&optional cmd)
+  "start an inferior arc process.  return the process started.
+since this command is run implicitly, always ask the user for the
+command to run."
+  (save-window-excursion
+    (run-arc (read-string "run arc: " arc-program-name))))
+
+;;; do the user's customization...
+
+(defcustom inferior-arc-load-hook nil
+  "this hook is run when inferior-arc is loaded in.
+this is a good place to put keybindings."
+  :type 'hook
+  :group 'arc)
+
+(run-hooks 'inferior-arc-load-hook)
+
+(provide 'inferior-arc)
+
+;;; inferior-arc.el ends here
