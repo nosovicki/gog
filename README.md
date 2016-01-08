@@ -35,12 +35,12 @@ complex internally, its complexity is what makes it simple for the programmer.
 
 GOG rules are:
 * Words are separated by spaces
-* Expressions are separated either by either line breaks or parentheses
+* Expressions are separated by either line breaks or parentheses
 
 That's right, no rules about order of tokens, no declaration rules, no fancy
 brackets and arrows. That's because GOG uses polynotational semantics. The
-idea of polynotational semantics is simple. Languages have three main types of
-notation:
+idea of polynotational semantics is based on the observation that languages
+have three main types of notation:
 
 * Prefix notation: `func(arg1, arg2, arg3)`
 * Infix notation: `x = 2 + 2 * 3`
@@ -59,9 +59,9 @@ clues. For example:
     3
     3
 
-This reduces basic syntax to just alphanumerics plus `*+()`, and you
-can write very sophisticated programs with that. But GOG also
-has many features that do utilize your spare keyboard range.
+This reduces basic syntax to just alphanumeric keys plus `*+()`, and you can
+write very sophisticated programs with that. But GOG also has many features
+that do utilize your spare keyboard range.
 
 Some of GOG unique features are:
 
@@ -144,7 +144,9 @@ natural numbers and the square of their sum, i. e:
 
 It starts with `[` and ends with `]`. Inside, there are 3 functions: `$+` (reduce), `**_2` (square) and `-_X` (a function that subtracts variable X from its parameter. X is an argument of the lambda function, because it starts with a capital letter. `x` is the variable which was saved earlier. This lambda function reduces `x` with summation, squares the result, and subtracts its argument from it.
 
-As you can see, GOG expressions can be packed with meaning. Using both tacit features and compact lambda notation with an arbitrary number of parameters GOG allows to write concise and powerful programs which are easy to understand, but, what is more important, allows experiments with different ways to write your program. With GOG, you can make your program shorter or longer, crystal-clear or opaque, and I hope that, though imperfect as it is, GOG will prove itself useful for people-centric experiments with programming languages.
+# Conclusion
+
+As you can see, GOG expressions can be packed with meaning. Using both tacit features and compact lambda notation allows to write concise and powerful programs which are easy to understand, but, what is more important, allows experiments with different ways to write a program. With GOG, you can make your program shorter or longer, crystal-clear or opaque, and I hope that, though imperfect as it is, GOG will prove itself useful for people-centric experiments with programming languages.
 
 # Relation to ARC, LISP and other languages:
 
