@@ -46,8 +46,8 @@ have three main types of notation:
 * Infix notation: `x = 2 + 2 * 3`
 * Postfix notation: `ls | rev | tac | split`
 
-Each notation has its strengths, and GOG allows them all. Rurthermore,  
-most of the time, GOG understands what you mean without additional syntctic
+Each notation has its strengths, and GOG allows them all. Furthermore,  
+most of the time, GOG understands what you mean without additional syntactic
 clues. For example:
 
     gog> + 1 2 3
@@ -182,7 +182,7 @@ For example:
     foo
     4
 
-# Executioin speed
+# Execution speed
 
 I did no optimization whatsoever, as I wanted to keep this highly experimental code as straightforward as possible. That said, the overhead is generally insignificant. First attempt to determine notation is made at compile time. That effectively minimizes run-time overhead, especially for prefix notation. Thus, during arc loading, 10839 of 10318 examined expressions (~95%) recognise as prefix notation at compile time. The rest requires run-time notation discovery, which should result in slight overhead for traditional expressions, and yet somewhat more substantial for infix and postfix ones. Nevertheless, I was not able to notice any of it, using simple benchmarks. This topic might require further investigation, but as far as I can see, the execution overhead seems to be low.
 
