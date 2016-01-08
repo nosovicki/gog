@@ -21,24 +21,24 @@ After that, you can run GOG interactively and pass programs to it, for example:
 
 ## Introduction
 
+Language is fully defined by its words and by the ways of how it combines those
+words.  And, as good vocabulary enables us to convey same meaning with many
+different words, a good language must enable us to express semantics by
+different ways.  The language should have enough rules to leave an impression
+that it has no syntax at all -- so that a programmer could write expressions
+any way he wants --  this adaptability is what can make a language both powerful
+and legible, both maintainable and robust.
+
 While programming languages often excel at mind-bending ways to combine their
 primitives, examples of elegant simplicity are rare. Though GOG is rather
-complex internally, its complexity makes it simple for the programmer.
-
-Language is fully defined by its words and by the rules of how to combine those
-words.  And, as a good vocabulary enables us to convey same meaning by
-different words, a good language should enable us to express semantics by
-different ways.  The language must have enough rules to leave an expression
-that it has no syntax at all -- so that a programmer could write expressions
-any way he wants --  this adaptability is what makes a language both powerful
-and legible, both maintainable and robust.
+complex internally, its complexity is what makes it simple for the programmer.
 
 GOG rules are:
 * Words are separated by spaces
-* Expressions are separated either by line breaks, or by parentheses
+* Expressions are separated either by either line breaks or parentheses
 
 That's right, no rules about order of tokens, no declaration rules, no fancy
-brackets and arrows.  This is because GOG uses polynotational semantics. The
+brackets and arrows. That's because GOG uses polynotational semantics. The
 idea of polynotational semantics is simple. Languages have three main types of
 notation:
 
@@ -47,8 +47,8 @@ notation:
 * Postfix notation: `ls | rev | tac | split`
 
 Each notation has its strengths, and GOG allows them all. Rurthermore,  
-most of the time, GOG understands what you mean without any syntax clues. For
-example:
+most of the time, GOG understands what you mean without additional syntctic
+clues. For example:
 
     gog> + 1 2 3
     6
@@ -59,11 +59,11 @@ example:
     3
     3
 
-Of course, this reduces basic syntax to just alphanumeric plus `*+()`, and you
-can write very clear and sophisticated programs just with that. But GOG also
-has many powerful features that do utilize your keyboard range.
+This reduces basic syntax to just alphanumerics plus `*+()`, and you
+can write very sophisticated programs with that. But GOG also
+has many features that do utilize your spare keyboard range.
 
-Some of the unique features are:
+Some of GOG unique features are:
 
 * Lambda function semantics
 * List operations through adverbs
@@ -78,9 +78,9 @@ you can write
 
      [A + B]
 
-To distinguish lambda arguments from other names you just start them with
-capital letters. Of course, you can use any notation inside lambdas too, as
-well as nest lambda functions infinitely.
+To distinguish lambda arguments from other names, you start them with capital
+letters. Of course, you can use any notation inside lambdas too, as well as
+nest lambda functions infinitely.
 
 #### Nested example
 
