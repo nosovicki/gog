@@ -1,5 +1,0 @@
-(let rl ((n (read)) (x 0))
-  (if (= 0 n) (let ((ls (string->list (number->string (inexact->exact (sqrt x))))))
-                (display (length ls)) (newline)
-                (let pl ((ls ls)) (and (not (null? ls)) (display (car ls)) (newline) (pl (cdr ls)))))
-    (rl (- n 1) (+ (* x 10) (read)))))
