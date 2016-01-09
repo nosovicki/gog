@@ -60,9 +60,9 @@ clues. For example:
     3
     3
 
-This reduces basic syntax to just alphanumeric keys plus `*+()`, and you can
-write very sophisticated programs with that. But GOG also has many features
-that do utilize your spare keyboard range.
+This reduces basic syntax to just alphanumeric keys plus `-*+()`, and you can
+write very sophisticated programs in GOG with those. On top of that, GOG builds
+some features that do utilize your spare keyboard range.
 
 Some of GOG unique features are:
 
