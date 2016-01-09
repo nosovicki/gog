@@ -5,15 +5,17 @@ Experimental language with polynotational semantics
 
 # Installation
 
-1. Install Rlwrap and Racket. Assuming you have ubuntu:
+1. Install Rlwrap and Racket
+2. Clone GOG
+3. Add GOG launcher to your path
+
+Assuming you have ubuntu:
 
     sudo apt-get install racket rlwrap
-
-2. Add GOG launcher to your path. Assuming you have put GOG into /opt/:
-
+    sudo git clone https://github.com/nosovicki/gog.git /opt/gog
     sudo ln -s /opt/gog/gog /usr/bin/
 
-After that, you can run GOG interactively and pass programs to it, for example:
+After that, you can run GOG interactively and / or pass programs to it:
 
     gog
     gog examples/life.gog
@@ -141,7 +143,7 @@ natural numbers and the square of their sum, i. e:
 
     1 range_100 !x @**_2 $+ [x $+ **_2 -_X]
 
-**Explanation of the last case**: Postfix notation passes single value from one function to another. Every token must evaluate to a function of one argument. Let's trace the expression: `1` is  the initial value. `range_100` is a modified function `range`, to which by syntax `_` was attached argument 100. `range` takes 2 arguments, `from` and `to`, and returns a list of increasing values from `from` to `to` . `!` is an adverb that takes any name and makes a function that saves its argument to a variable with that name. So `!x` assigns obtained list to variable `x`, which we will use later. `@**_2` looks complex, but it is just a modified exponentiation function `**`. `**_2` means "square", while `@` is a "mapping" adverb. It makes `**_2` map on our range list, squaring all its values. `$` is a "reduce" adverb. `$+` reduces list by summation. Finally, the last subexpression is a lambda. `[` and `]` denote a lambda function. GOG automatically guesses which variables inside a lambda are its parameters, and algorithm is very simple: lambda function parameters start with a capital letter. Let's investigate this function separately.
+**Explanation of the last case**: Postfix notation passes single value from one function to another. Every token must evaluate to a function of one argument. Let's trace this expression: `1` is  the initial value. `range_100` is a modified function `range`, to which by syntax `_` was attached argument 100. `range` takes 2 arguments, `from` and `to`, and returns a list of increasing values from `from` to `to` . `!` is an adverb that takes any name and makes a function that saves its argument to a variable with that name. So `!x` assigns obtained list to variable `x`, which we will use later. `@**_2` looks complex, but it is just a modified exponentiation function `**`. `**_2` means "square", while `@` is a "mapping" adverb. It makes `**_2` map on our range list, squaring all its values. `$` is a "reduce" adverb. `$+` reduces list by summation. Finally, the last subexpression is a lambda. `[` and `]` denote a lambda function. GOG automatically guesses which variables inside a lambda are its parameters, and algorithm is very simple: lambda function parameters start with a capital letter. Let's investigate this function separately.
 
 It starts with `[` and ends with `]`. Inside, there are 3 functions: `$+` (reduce), `**_2` (square) and `-_X` (a function that subtracts variable X from its parameter. X is an argument of the lambda function, because it starts with a capital letter. `x` is the variable which was saved earlier. This lambda function reduces `x` with summation, squares the result, and subtracts its argument from it.
 
