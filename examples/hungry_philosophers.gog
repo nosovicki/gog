@@ -1,0 +1,31 @@
+;; Hungry Philosopers is a problem in which concurrent
+;; processes try to access limited resources
+;; ============= GOG implementation ==========
+(= lst '(knife1 knife2 knife3 spoon1 spoon2 spoon3)
+   ;; Initially, all knifes and spoons are free
+   box (lst @[X list '-------] listtab)
+   ;; Philosoper never thinks without repast
+   think [and (is Name box.X box.Y)
+              ('------- !box.X !box.Y)
+              (remain rand.5 (&+ Name) "thinking ")]
+   ;; To eat, philosopher has to wait until he secures his tableware
+   eat [do (until X.$obtain (remain 1 X "waiting  "))
+           (remain rand.5 X "eating   ")]
+   ;; Welcome bugs unless you do atomic check and lock
+   obtain [atomic:and
+            (is box.X box.Y '-------)
+            (Name !box.X !box.Y)]
+   ;; Changing state reports status
+   remain [and (prn BData.0 " is " CState tablist.box)
+               (sleep ATime)]
+   ;; Philosoper either thinks or eats
+   philosopher [while t (or (think Name lst.X lst.Y)
+                            (&eat Name lst.X lst.Y))])
+
+(thread:philosopher 'Alphred 0 3)
+(thread:philosopher 'Sipelov 3 1)
+(thread:philosopher 'Petucci 1 4)
+(thread:philosopher 'Ulanand 4 2)
+(thread:philosopher 'Isoguti 2 5)
+(thread:philosopher 'Theomid 5 1)
+(read)

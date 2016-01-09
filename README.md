@@ -16,7 +16,7 @@ Experimental language with polynotational semantics
 After that, you can run GOG interactively and pass programs to it, for example:
 
     gog
-    gog hello_world.gog
+    gog examples/life.gog
 
 
 ## Introduction
