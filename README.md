@@ -144,11 +144,11 @@ natural numbers and the square of their sum, i. e:
 
 It starts with `[` and ends with `]`. Inside, there are 3 functions: `$+` (reduce), `**_2` (square) and `-_X` (a function that subtracts variable X from its parameter. X is an argument of the lambda function, because it starts with a capital letter. `x` is the variable which was saved earlier. This lambda function reduces `x` with summation, squares the result, and subtracts its argument from it.
 
-# Conclusion
+# Why GOG?
 
-As you can see, GOG expressions can be packed with meaning. Using both tacit features and compact lambda notation allows to write concise and powerful programs which are easy to understand, but, what is more important, allows experiments with different ways to write a program. With GOG, you can make your program shorter or longer, crystal-clear or opaque, and I hope that, though imperfect as it is, GOG will prove itself useful for people-centric experiments with programming languages.
+As you can see, GOG expressions can be packed with meaning. Using both tacit features and compact lambda notation allows to write concise and powerful programs which are easy to understand. But more importantly, GOG allows experiments with different ways to write a program. With GOG, you can make your program shorter or longer, crystal-clear or opaque, and I'm sure that, though imperfect as it is, GOG may be very useful for people-centric experiments with programming languages.
 
-# Relation to ARC, LISP and other languages:
+# Relation to ARC and LISP:
 
 GOG is built in ARC, which is a very advanced functional language by itself:
 
@@ -156,7 +156,10 @@ https://en.wikipedia.org/wiki/Arc_%28programming_language%29
 
 The initial idea was to add polynotational semantics to arc as a patch.
 Unfortunately, it broke some of the arc's semantics. Additionally, GOG's
-adverbial syntax considerably differs from arc.
+adverbal syntax considerably differs from arc.
+
+As a result, GOG has data types and features of a lisp: macros, symbols, etc.
+See ARC 
 
 # Backward compatibility
 
@@ -166,26 +169,10 @@ expressions are recognized as prefix notation, except the following cases:
 * You can not use a procedure or macro object as a data-call argument. It would classify as some arbitrary notation.
 * Same refers to specifying more than one argument during data call (arc tables support second optional argument).
 
-# Switching polynotation features off
-
-Polynotational semantics is on by default. To switch it off completely, you can use "uniform-notation" declaration:
-
-For example:
-
-    (a = (table))
-    (declare 'uniform-notation t)
-    (= (a map) 'foo)
-    (prn (a map))
-    (declare 'uniform-notation nil)
-    ((2 + 2) prn)
-    =>
-    foo
-    4
-
 # Execution speed
 
 I did no optimization whatsoever, as I wanted to keep this highly experimental code as straightforward as possible. That said, the overhead is generally insignificant. First attempt to determine notation is made at compile time. That effectively minimizes run-time overhead, especially for prefix notation. Thus, during arc loading, 10839 of 10318 examined expressions (~95%) recognise as prefix notation at compile time. The rest requires run-time notation discovery, which should result in slight overhead for traditional expressions, and yet somewhat more substantial for infix and postfix ones. Nevertheless, I was not able to notice any of it, using simple benchmarks. This topic might require further investigation, but as far as I can see, the execution overhead seems to be low.
 
 # Infix precedence rules
 
-It would be a shame to introduce infix notation to a Lisp without precedence rules. GOG uses same precedence as C language does. New functions get precedence by association.
+It would be a shame to introduce infix notation to a Lisp without precedence rules. GOG uses same precedence as C language does. New functions get precedence by association. See ac.scm comments for details, including how to set precedence order for your function.

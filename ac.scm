@@ -977,8 +977,24 @@
          (ac-niltree (append (ar-nil-terminate x) (ar-nil-terminate y))))
         (#t (+ x y))))
 
+(xdef * (lambda args
+          (cond ((null? args) 1)
+                ((arc-list? (car args))
+                 (ac-niltree (distribute (map ar-nil-terminate args))))
+                (#t (apply * args)))))
+
+; '((a b) (1 2 3)) => '(((a 1) (b 1)) ((a 2) (b 2)) ((a 3) (b 3)))
+(define (distribute ls)
+  (if (null? (cdr ls)) (car ls)
+    (let row ((b (cadr ls)))
+      (if (null? b) '()
+        (cons 
+          (let col ((a (car ls)))
+            (if (null? a) '()
+              (cons (list (car a) (car b)) (col (cdr a)))))
+          (row (cdr b)))))))
+
 (xdef - -)
-(xdef * *)
 (xdef / /)
 (xdef mod modulo)
 (xdef expt expt)
