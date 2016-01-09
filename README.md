@@ -21,32 +21,33 @@ After that, you can run GOG interactively and pass programs to it, for example:
 
 ## Introduction
 
-Language is fully defined by its words and by the ways of how it combines those
-words.  And, as good vocabulary enables us to convey same meaning with many
-different words, a good language must enable us to express semantics by
-different ways.  The language should have enough rules to leave an impression
-that it has no syntax at all -- so that a programmer could write expressions
-any way he wants --  this adaptability is what can make a language both powerful
-and legible, both maintainable and robust.
+Any language is fully defined by its words and by the ways of how it combines
+those words. Similar to a good vocabulary, that allows to convey one meaning
+with different words, a good language enables us to express semantics in
+different ways. Ideally, robust language should have enough syntactic cases to
+leave an impression that it has no rules at all, so that programmers could
+write expressions the way they want --  this adaptability is what will make a
+language both powerful and legible, both maintainable and convenient.
 
-While programming languages often excel at mind-bending ways to combine their
-primitives, examples of elegant simplicity are rare. Though GOG is rather
-complex internally, its complexity is what makes it simple for the programmer.
+GOG in one step in that direction.  While programming languages often excel at
+mind-bending ways to combine their primitives, examples of elegant simplicity
+are rare. Though GOG is rather complex internally, its complexity is of a kind
+that makes it simple for the programmer.
 
 GOG rules are:
 * Words are separated by spaces
 * Expressions are separated by either line breaks or parentheses
 
-That's right, no rules about order of tokens, no declaration rules, no fancy
-brackets and arrows. That's because GOG uses polynotational semantics. The
-idea of polynotational semantics is based on the observation that languages
-have three main types of notation:
+That's right, no strict order of tokens, and no fancy brackets and arrows.
+That's because GOG uses polynotational semantics. The idea of polynotational
+semantics is based on well-known observation, that languages have three main
+types of notation:
 
 * Prefix notation: `func(arg1, arg2, arg3)`
 * Infix notation: `x = 2 + 2 * 3`
 * Postfix notation: `ls | rev | tac | split`
 
-Each notation has its strengths, and GOG allows them all. Furthermore,  
+Each notation has its strengths, and GOG allows them all. Importantly,
 most of the time, GOG understands what you mean without additional syntactic
 clues. For example:
 
