@@ -53,11 +53,11 @@ Each notation has its strengths, and GOG allows all of them. Importantly,
 most of the time GOG understands what you mean without additional syntactic
 clues. For example:
 
-    gog> + 1 2 3
+    λ + 1 2 3
     6
-    gog> 1 + 2 + 3
+    λ 1 + 2 + 3
     6
-    gog> 9 sqrt prn prn
+    λ 9 sqrt prn prn
     3
     3
     3
@@ -69,7 +69,7 @@ that do utilize your spare keyboard range.
 Some of GOG unique features are:
 
 * Improved Lambda argument semantics
-* List operations through adverbs
+* Lexical list operation semantics
 
 ### What you can do
 
@@ -79,7 +79,7 @@ Instead of
 
 you can write
 
-     [A + B]
+     λ [A + B]
 
 To distinguish lambda arguments from other names you start them with capital
 letters. Of course you can use any notation inside lambdas too, as well as
@@ -87,7 +87,7 @@ nest lambda functions infinitely:
 
 #### Nested example
 
-    [map [*Elem / Num] List]
+    λ [map [*Elem / Num] List]
 
 GOG understands as:
 
@@ -98,30 +98,31 @@ lambda. The deeper in the nesting resides your argument, the more asterisks you
 add. Note that List goes before Num in lambda argument list. It is because
 auto-guessed lambda parameters are always assumed to follow alphabetic order.
 
-### Fun with adverbs
+### Fun with lexemes
 
-Here I show how adverbs influence function behavior Note that in the last
-example `+` works as an identity function.
+Lexemes modify meaning of a function. Similar semantic units are called adverbs
+in tacit programming. Here I show how lexemes influence function behavior.
+Note that in the last example `+` function works as an identity function.
 
-    gog> x = '((1 2 3) (4 5 6) (7 8 9))
+    λ x = '((1 2 3) (4 5 6) (7 8 9))
     ((1 2 3) (4 5 6) (7 8 9))
     
-    gog> $+ x
+    λ $+ x
     (1 2 3 4 5 6 7 8 9)  ;; Flatten
     
-    gog> @$+ x
+    λ @$+ x
     (6 15 24) ;; Sum rows
     
-    gog> $@+ x
+    λ $@+ x
     (12 15 18) ;; Sum columns
     
-    gog> $@&+ x
+    λ $@&+ x
     ((1 4 7) (2 5 8) (3 6 9)) ;; Transpose
 
 @ = map; $ = apply; & = collect
 
-You can use adverbs with any expression that evaluates to a function, including
-lambdas and subexpressions that return functions.  For example: `&[X + 2]`,
+You can use lexemes with any expression that evaluates to a function, including
+lambdas and subexpressions that return functions, like: `&[X + 2]`,
 `$(get-my-function my-argument)`.
 
 ### Example: sum square difference
@@ -132,29 +133,29 @@ natural numbers and the square of their sum, i. e
 
 *Prefix notation:*
 
-    (= x (range 1 100))
-    (- (**_2 ($+ x)) ($+ (@**_2 x)))
+    λ (= x (range 1 100))
+    λ (- (**_2 ($+ x)) ($+ (@**_2 x)))
 
 *Infix notation:*
 
-    x = 1 range 100
-    ($+ x) ** 2 - ($+ (@**_2 x))
+    λ x = 1 range 100
+    λ ($+ x) ** 2 - ($+ (@**_2 x))
 
 *Postfix notation:*
 
-    1 range_100 !x @**_2 $+ [x $+ **_2 -_X]
+    λ 1 range_100 !x @**_2 $+ [x $+ **_2 -_X]
 
 **Explanation of the last line**: Postfix notation passes single value from one
 function to another, so every token must evaluate to a function of one
 argument. Let's trace this expression: `1` is  the initial value. `range_100`
 is a modified function `range`, to which by syntax `_` was attached argument
 100. `range` takes 2 arguments, `from` and `to`, and returns a list of
-increasing values from `from` to `to` . `!` is an adverb that takes any name
+increasing values from `from` to `to` . `!` is a lexeme that takes any name
 and makes a function that saves its argument to a variable with that name. So
 `!x` assigns obtained list to variable `x`, which we will use later. `@**_2`
 looks complex, but it is just a modified exponentiation function `**`. `**_2`
-means "square", while `@` is the "mapping" adverb. It makes `**_2` map on our
-range list, squaring all its values. `$` is a "reduce" adverb. `$+` reduces
+means "square", while `@` is the "mapping" lexeme. It makes `**_2` map on our
+range list, squaring all its values. `$` is a "reduce" lexeme. `$+` reduces
 list by summation. Finally, the last subexpression is a lambda. `[` and `]`
 denote a lambda function. GOG automatically guesses which variables inside a
 lambda are parameters by a very simple rule: parameters start with a capital
