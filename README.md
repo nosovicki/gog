@@ -23,35 +23,37 @@ After that you can run GOG interactively and / or pass programs to it:
 
 ## Introduction
 
-Any language is, technically, defined by its words, and by how it combines
-those words. Similarly to a vocabulary that allows to convey one meaning by
-different words, language must enable us to express semantics in different
-ways. Ideally, a robust language has enough syntactic cases to leave an
-impression that it has no rules at all, so that programmers can write
-expressions the way they need; this adaptability is what makes a language both
-powerful and legible, both maintainable and convenient.
+Any language is defined by its words and by how we combine those words.
+Similarly to a rich vocabulary that has many words for one meaning, rich syntax
+conveys semantics by many ways. Perfectly robust language has enough syntactic
+cases to make an impression that it has little or no rules; convenience to
+express what we want the way we find sutable is what makes natural languages
+both powerful and legible, both maintainable and convenient.
 
-GOG is a step in that direction.  While programming languages often excel at
-mind bending ways to combine their primitives, examples of elegant simplicity
-are rare. Though GOG is rather complex internally, its complexity is of a kind
-that makes it simple for the programmer.
+While programming languages often excel at mind bending ways to combine their
+primitives, examples of elegant simplicity are rare. That happens because most
+languages supply one complex strict syntax that whould fits most cases, while a
+syntax that suits all cases does not exist.
 
-GOG rules are:
-* Words are separated by spaces
-* Expressions are separated by either line breaks or by parentheses
+GOG is a step in another direction. It allows virtually any syntax. Though GOG
+is rather complex internally, its complexity is of a kind that makes it simple
+to use.
+
+The only two GOG rules are:
+1. Words are separated by any number of whitespace characters.
+2. Expressions are either separated by line breaks or included in parentheses.
 
 That's right -- no strict order of tokens, and no fancy brackets and arrows.
 That's because GOG uses polynotational semantics. The idea of polynotational
-semantics is based on an observation that languages have three types of
-notation:
+semantics is based on an observation that the number of simple convenient
+notations is limited:
 
 * Prefix notation: `func(arg1, arg2, arg3)`
 * Infix notation: `x = 2 + 2 * 3`
 * Postfix notation: `ls | rev | tac | split`
 
-Each notation has its strengths, and GOG allows all of them. Importantly,
-most of the time GOG understands what you mean without additional syntactic
-clues. For example:
+Each notation has its strengths, and GOG allows all of them. Importantly, GOG
+understands what you mean without additional syntactic clues. For example:
 
     λ + 1 2 3
     6
@@ -62,16 +64,42 @@ clues. For example:
     3
     3
 
-This reduces syntax to just alphanumeric keys plus `()`, and you can write very
-sophisticated programs in GOG with just those. On top of that, GOG has features
-that do utilize your spare keyboard range.
+This reduces syntax to just alphanumeric keys plus `()`, and you can write your
+programs with just these. However, on top of this GOG builds features that do
+utilize your spared keyboard range: GOG has rich lexical rules. Similarly to
+natural languages, GOG modifies word meaning on the fly in accordance to a
+lexical rule. For example, you transform `+` into `(lambda (x) (map + x))`
+by writing `@+`.
 
-Some of GOG unique features are:
+### Fun with lexemes
 
-* Improved Lambda argument semantics
-* Lexical list operation semantics
+Lexemes modify meaning of a function. Similar semantic units are called adverbs
+in tacit programming, Here I show how lexemes influence function behavior.
+Note that in the last example `+` function works as an identity function.
 
-### What you can do
+    λ x = '((1 2 3) (4 5 6) (7 8 9))
+    ((1 2 3) (4 5 6) (7 8 9))
+    
+    λ $+ x
+    (1 2 3 4 5 6 7 8 9)  ;; Flatten
+    
+    λ @$+ x
+    (6 15 24) ;; Sum rows
+    
+    λ $@+ x
+    (12 15 18) ;; Sum columns
+    
+    λ $@&+ x
+    ((1 4 7) (2 5 8) (3 6 9)) ;; Transpose
+
+@ = map; $ = apply; & = collect
+
+Note that lexemes are higher-order functions that became part of the language.
+Because of that you can use lexemes with any expression that evaluates to a
+function, including lambdas and subexpressions that return functions, for
+example: `&[X + 2]`, `$(select-function function-list)`.
+
+### Simplified polyadic lambda syntax
 
 Instead of
 
@@ -98,43 +126,16 @@ lambda. The deeper in the nesting resides your argument, the more asterisks you
 add. Note that List goes before Num in lambda argument list. It is because
 auto-guessed lambda parameters are always assumed to follow alphabetic order.
 
-### Fun with lexemes
-
-Lexemes modify meaning of a function. Similar semantic units are called adverbs
-in tacit programming. Here I show how lexemes influence function behavior.
-Note that in the last example `+` function works as an identity function.
-
-    λ x = '((1 2 3) (4 5 6) (7 8 9))
-    ((1 2 3) (4 5 6) (7 8 9))
-    
-    λ $+ x
-    (1 2 3 4 5 6 7 8 9)  ;; Flatten
-    
-    λ @$+ x
-    (6 15 24) ;; Sum rows
-    
-    λ $@+ x
-    (12 15 18) ;; Sum columns
-    
-    λ $@&+ x
-    ((1 4 7) (2 5 8) (3 6 9)) ;; Transpose
-
-@ = map; $ = apply; & = collect
-
-You can use lexemes with any expression that evaluates to a function, including
-lambdas and subexpressions that return functions, like: `&[X + 2]`,
-`$(get-my-function my-argument)`.
-
 ### Example: sum square difference
 
 Find the difference between the sum of the squares of the first one hundred
-natural numbers and the square of their sum, i. e
+natural numbers and the square of their sum, i. e.
 (1 + 2 + ... 100)^2 - (1^2 + 2^2 + ... 100^2)
 
 *Prefix notation:*
 
     λ (= x (range 1 100))
-    λ (- (**_2 ($+ x)) ($+ (@**_2 x)))
+    λ (- (** ($+ x) 2) ($+ (@**_2 x)))
 
 *Infix notation:*
 
