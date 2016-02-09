@@ -1,21 +1,23 @@
 GOG
 ===
-Experimental language with polynotational semantics
+A language with polynotational semantics
 -----
 
 # Installation
 
 1. Install Rlwrap and Racket
-2. Clone GOG
-3. Add GOG launcher to your path
+2. Install optional MySQL support
+3. Clone GOG
+4. Add GOG launcher to your path
 
-Assuming you have Ubuntu,
+Assuming you have Ubuntu, this can be done with the following lines
 
     sudo apt-get install racket rlwrap
+    sudo apt-get install mysql-client libssl-dev # Optionally for MySQL support
     sudo git clone https://github.com/nosovicki/gog.git /opt/gog
     sudo ln -s /opt/gog/gog /usr/bin/
 
-After that you can run GOG interactively and / or pass programs to it:
+Now you can run GOG interactively and / or pass programs to it:
 
     gog
     gog examples/life.gog
