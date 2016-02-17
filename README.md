@@ -17,7 +17,7 @@ See [here] (https://nosovicki.azurewebsites.net/gog/)
 Assuming you have Ubuntu, this can be done with the following lines
 
     sudo apt-get install racket rlwrap
-    sudo apt-get install mysql-client libssl-dev # Optional MySQL support
+    # sudo apt-get install mysql-client libssl-dev # Optional MySQL support
     sudo git clone https://github.com/nosovicki/gog.git /opt/gog
     sudo ln -s /opt/gog/gog /usr/bin/
 
