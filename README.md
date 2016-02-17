@@ -3,6 +3,10 @@ GOG
 An experimental language with polynotational semantics
 -----
 
+# Introduction
+
+See [here] (https://nosovicki.azurewebsites.net/gog/)
+
 # Installation
 
 1. Install Rlwrap and Racket
@@ -23,6 +27,3 @@ Now you can run GOG interactively and / or pass programs to it:
     gog examples/life.gog
 
 
-## Introduction
-
-See [here] (https://nosovicki.azurewebsites.net/gog/)
