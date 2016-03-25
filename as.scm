@@ -11,7 +11,8 @@
 
 (parameterize ((current-directory (current-load-relative-directory)))
   (aload "arc.arc")
-  (aload "libs.arc"))
+  (aload "libs.arc")
+  (aload "gog.arc"))
 
 (let ((args (vector->list (current-command-line-arguments))))
   (if (null? args)

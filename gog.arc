@@ -1,0 +1,5 @@
+(head = [and (N > 0) (cons >Ls (head <Ls (N - 1)))])
+(tail = [if (N is Ls.len) Ls (tail <Ls N)])
+(2num = [coerce X 'num])
+(2ls = [coerce X 'cons])
+(2str = [coerce X 'string])
