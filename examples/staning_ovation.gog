@@ -1,0 +1,7 @@
+;; Google Code Jam 2015 
+;; You can find both problem statement and input file here:
+;; https://code.google.com/codejam/contest/6224486/dashboard#s=p0&a=0
+("A-large.in" file cdr @tokens @cdr flat @2ls @@2str @@2num @[with (have 0 add 0) (on ppl X
+       (add = index - have max add)
+       (zap + have ppl))
+   add] [on n Cases (prn "Case #" (index + 1) ": " n)])
