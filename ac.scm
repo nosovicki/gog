@@ -1419,7 +1419,7 @@
 	    (set! last-condition* c)
 	    (parameterize ((current-output-port (current-error-port)))
 			  (display "Error: ")
-			  (write (exn-message c))
+			  (display (exn-message c))
 			  (newline)
 			  (tl2 interactive?)))
 	  (lambda ()
