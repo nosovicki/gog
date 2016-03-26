@@ -3,7 +3,7 @@
   " Pretty-prints the source code of the function `name'.
     Is a function, so `name' is evaluated.
     See also: [[src]] "
-  ((only [prn "(from \"" _ "\")"]) source-file*.name)
+  ((only [prn "(from \"" X "\")"]) source-file*.name)
   (ppr source*.name))
 
 (def ppr-examples (name)
@@ -34,7 +34,7 @@
   " Returns a list of symbols whose documentation matches or partly matches 
     `str'. "
   (zap downcase str)
-  (let part-match [findsubseq str (downcase:string _)]
+  (let part-match [findsubseq str (downcase:string X)]
     (sort < 
       (accum add
         (each (name doc) help* 
@@ -63,6 +63,6 @@
     If `test' is a function, it is used as a predicate.
     Otherwise, names of which `(string test)' is a prefix pass. "
   (let test (if (isa test 'fn) test
-              (let pfx string.test [begins string._ pfx]))
+              (let pfx string.test [begins string.X pfx]))
     (each f (sort < (keep test keys.sig))
       (pr (helpstr sym.f nil)))))
