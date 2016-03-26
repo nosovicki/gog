@@ -334,7 +334,7 @@
 ; If ok to do with =, why not with def?  But see if use it.
 
 (mac defs args
-  `(do ,@(map [cons 'def _] (tuples args 3))))
+  `(do ,@(map (fn (x) (cons 'def x)) (tuples args 3))))
 
 (def caris (x val) 
   (and (acons x) (is (car x) val)))
@@ -745,7 +745,7 @@
 
 (mac accum (accfn . body)
   (w/uniq gacc
-    `(withs (,gacc nil ,accfn [push _ ,gacc])
+    `(withs (,gacc nil ,accfn (fn (x) (push x ,gacc)))
        ,@body
        (rev ,gacc))))
 
@@ -928,7 +928,7 @@
 (mac rand-choice exprs
   `(case (rand ,(len exprs))
      ,@(let key -1 
-         (mappend [list (++ key) _]
+         (mappend (fn (x) (list (++ key) x))
                   exprs))))
 
 (mac n-of (n expr)
@@ -999,7 +999,7 @@
       (cons (car seq) (insert-sorted test elt (cdr seq)))))
 
 (mac insort (test elt seq)
-  `(zap [insert-sorted ,test ,elt _] ,seq))
+  `(zap (fn (x) (insert-sorted ,test ,elt x)) ,seq))
 
 (def reinsert-sorted (test elt seq)
   (if (no seq) 
@@ -1011,7 +1011,7 @@
       (cons (car seq) (reinsert-sorted test elt (cdr seq)))))
 
 (mac insortnew (test elt seq)
-  `(zap [reinsert-sorted ,test ,elt _] ,seq))
+  `(zap (fn (x) (reinsert-sorted ,test ,elt x)) ,seq))
 
 ; Could make this look at the sig of f and return a fn that took the 
 ; right no of args and didn't have to call apply (or list if 1 arg).
@@ -1693,7 +1693,7 @@
   (w/uniq g
     `((afn (,g)
         (when ,g
-          ,@(map [list _ g] fs)))
+          ,@(map (fn (p) (list p g)) fs)))
       ,x)))
 
 (mac or= (place expr)
