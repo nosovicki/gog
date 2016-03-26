@@ -3,4 +3,5 @@
 (2num = [coerce X 'num])
 (2ls = [coerce X 'cons])
 (2str = [coerce X 'string])
-(mac apropos (arg) (helpsearch (coerce arg 'string)))
+(endl = #\newline)
+(mac apropos (arg) (arg 2str helpsearch-core @[pr (ellipsize_20:string Name " " (20 ".")) (Name sym helpstr cadr:lines) "\n"]) 'nil)
