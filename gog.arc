@@ -3,3 +3,4 @@
 (2num = [coerce X 'num])
 (2ls = [coerce X 'cons])
 (2str = [coerce X 'string])
+(mac apropos (arg) (helpsearch (coerce arg 'string)))
