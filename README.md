@@ -21,9 +21,13 @@ Assuming you have Ubuntu, this can be done with the following lines
     sudo git clone https://github.com/nosovicki/gog.git /opt/gog
     sudo ln -s /opt/gog/gog /usr/bin/
 
-Now you can run GOG interactively and / or pass programs to it:
+Now you can run GOG interactively:
 
-    gog
+  $ gog
+  λ apropos thread
+  λ apropos string
+
+Or pass programs to it:
+
     gog examples/life.gog
-
 
