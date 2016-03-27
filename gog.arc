@@ -5,3 +5,5 @@
 (2str = [coerce X 'string])
 (endl = #\newline)
 (mac apropos (arg) (arg 2str helpsearch-core @[pr (ellipsize_20:string Name " " (20 ".")) (Name sym helpstr cadr:lines) "\n"]) 'nil)
+(floor = trunc)
+(ceil = [if (N > floor.N) (floor.N + 1) floor.N])
