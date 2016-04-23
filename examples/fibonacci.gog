@@ -1,0 +1,11 @@
+((readline)
+ readall
+ @[5
+   sqrt
+   !sqof5
+   +_1
+   /_2
+   expt_X
+   /_sqof5
+   round]
+ @prn)
